@@ -169,6 +169,14 @@
       return this._[k] ? this._[k].value : undefined
     },
 
+    getAll: function() {
+      var data = {}
+      for (var k in this._) {
+        data[k] = this.get(k)
+      }
+      return data
+    },
+
     remove: function (k) {
       delete this._[k];
       writeThrough(this)

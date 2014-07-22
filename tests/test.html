@@ -45,6 +45,22 @@
             ok(kizzy('erin').get('is') == undefined, 'now cache is undefined');
           });
 
+          test('cache should be able to return all keys', function(complete) {
+            kizzy('dustin').set('was', 'weird', 500);
+            kizzy('dustin').set('is', 'nerdy');
+
+            ok(kizzy('dustin').getAll().was == "weird", 'correct value for "was"');
+            ok(kizzy('dustin').getAll().is == "nerdy", 'correct value for "is"');
+            ok(Object.keys(kizzy('dustin').getAll()).length == 2, 'correct size');
+
+            setTimeout(function() {
+              ok(kizzy('dustin').getAll().is == "nerdy", 'correct value for "is" after 1s');
+              ok(kizzy('dustin').getAll().was == undefined, '"was" expired after 500ms');
+              ok(Object.keys(kizzy('dustin').getAll()).length == 1, 'total size excluding expired keys');
+              complete();
+            }, 1000);
+          });
+
           test('cache should be able to be cleared entirely', 2, function() {
             kizzy('dustin').set('is', 'nerdy');
             kizzy('cats').set('are', 'weird');
